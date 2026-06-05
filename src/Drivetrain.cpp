@@ -1,12 +1,13 @@
 // Dependenices
 #include <Alfredo_NoU3.h>
 #include "Drivetrain.h"
+#include "Constants.h"
 
 // Drivetrain Motors Init
-NoU_Motor frontLeftMotor(1); // [NOTE]: THIS IS CHANGEABLE!
-NoU_Motor frontRightMotor(4); // [NOTE]: THIS IS CHANGEABLE!
-NoU_Motor rearLeftMotor(8); // [NOTE]: THIS IS CHANGEABLE!
-NoU_Motor rearRightMotor(5); // [NOTE]: THIS IS CHANGEABLE!
+NoU_Motor frontLeftMotor(frontLeftTerminal); // [NOTE]: THIS IS CHANGEABLE!
+NoU_Motor frontRightMotor(frontRightTerminal); // [NOTE]: THIS IS CHANGEABLE!
+NoU_Motor rearLeftMotor(rearLeftTerminal); // [NOTE]: THIS IS CHANGEABLE!
+NoU_Motor rearRightMotor(rearRightTerminal); // [NOTE]: THIS IS CHANGEABLE!
 
 // Drivetrain Init
 NoU_Drivetrain drivetrain(&frontLeftMotor, &frontRightMotor, &rearLeftMotor, &rearRightMotor);
@@ -16,17 +17,17 @@ void beginDrivetrain() {
   drivetrain.setMinimumOutput(0.1);
 
   // Inversion Parts
-  frontLeftMotor.setInverted(true);
-  frontRightMotor.setInverted(true);
-  rearLeftMotor.setInverted(true);
-  rearRightMotor.setInverted(true);
+  frontLeftMotor.setInverted(frontLeftInversion);
+  frontRightMotor.setInverted(frontRightInversion);
+  rearLeftMotor.setInverted(rearLeftInversion);
+  rearRightMotor.setInverted(rearRightInversion);
 }
 
 void updateDrivetrain(float gamepadX, float gamepadY, float gamepadRotation, float movement_speed) {
   // Sets Axes
-  float fieldPowerX = movement_speed * gamepadX;
-  float fieldPowerY = -movement_speed * gamepadY;
-  float rotationPower = -movement_speed * gamepadRotation;
+  float fieldPowerX = xAxesInversion * movement_speed * gamepadX;
+  float fieldPowerY = yAxesInversion * movement_speed * gamepadY;
+  float rotationPower = rotationAxesInversion * movement_speed * gamepadRotation;
 
   // Get robot heading (in radians) from the gyro
   float heading = NoU3.yaw * ANGULAR_SCALE;
