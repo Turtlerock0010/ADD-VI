@@ -9,7 +9,7 @@ const float M_TAG_PIXEL_WIDTH = 108; // Alternative values that work: 118, 122
 const float FOCAL_CONSTANT = (M_TAG_PIXEL_WIDTH * M_TAG_DISTANCE) / M_TAG_WIDTH;
 
 // Data Request Functions
-int* get_TagRow(int rowIndex);
+float* get_TagRow(int rowIndex);
 bool get_isTagVisable();
 
 // Setup & Loop Functions
