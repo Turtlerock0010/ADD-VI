@@ -1,7 +1,6 @@
 // Dependencies
-#include "Wire.h"
-#include "HUSKYLENS.h"
 #include "Vision.h"
+
 
 HUSKYLENS huskylens;
 
@@ -46,7 +45,7 @@ void updateVision() {
     // Adjusts the tag data matrix to match sensor readings
     for (int i = 0; i <= 2; i++) {
       HUSKYLENSResult result = huskylens.getBlock(i); // get tag with ID zero
-      availableTags[i][1] = i;
+      availableTags[i][0] = i;
       availableTags[i][1] = result.xCenter;
       availableTags[i][2] = result.yCenter;
       availableTags[i][3] = result.width;

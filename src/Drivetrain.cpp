@@ -1,16 +1,6 @@
 // Dependenices
-#include <Alfredo_NoU3.h>
 #include "Drivetrain.h"
-#include "Constants.h"
 
-// Drivetrain Motors Init
-NoU_Motor frontLeftMotor(frontLeftTerminal); // [NOTE]: THIS IS CHANGEABLE!
-NoU_Motor frontRightMotor(frontRightTerminal); // [NOTE]: THIS IS CHANGEABLE!
-NoU_Motor rearLeftMotor(rearLeftTerminal); // [NOTE]: THIS IS CHANGEABLE!
-NoU_Motor rearRightMotor(rearRightTerminal); // [NOTE]: THIS IS CHANGEABLE!
-
-// Drivetrain Init
-NoU_Drivetrain drivetrain(&frontLeftMotor, &frontRightMotor, &rearLeftMotor, &rearRightMotor);
 
 void beginDrivetrain() {
   // Allows for immediate robot movement from small movements
@@ -23,6 +13,7 @@ void beginDrivetrain() {
   rearRightMotor.setInverted(rearRightInversion);
 }
 
+
 void updateDrivetrain(float gamepadX, float gamepadY, float gamepadRotation, float movement_speed) {
   // Sets Axes
   float fieldPowerX = xAxesInversion * movement_speed * gamepadX;
@@ -31,6 +22,35 @@ void updateDrivetrain(float gamepadX, float gamepadY, float gamepadRotation, flo
 
   // Get robot heading (in radians) from the gyro
   float heading = NoU3.yaw * ANGULAR_SCALE;
+
+
+  if (fabs(rotationPower) > DEADBAND) { // Drift Compensation Script
+    // The driver is turning intentionally. Turn off heading lock.
+    headingLocked = false;
+  } else if (fabs(fieldPowerX) > DEADBAND || fabs(fieldPowerY) > DEADBAND) {
+    if (!headingLocked) {
+      targetHeading = heading;
+      headingLocked = true;
+    }
+
+    // Calculate the heading error
+    float headingError = targetHeading - heading;
+
+    // Optional: Normalize angle error to stay between -PI and PI 
+    // (Prevents the robot from spinning the long way around)
+    while (headingError > PI)  headingError -= 2.0 * PI;
+    while (headingError < -PI) headingError += 2.0 * PI;
+
+    // Calculate corrective rotation power using Proportional control
+    rotationPower = headingError * kP;
+
+    // Constrain the correction so it doesn't overpower everything
+    if (rotationPower > 0.5)  rotationPower = 0.5;
+    if (rotationPower < -0.5) rotationPower = -0.5;
+  } else {
+    headingLocked = false;
+    rotationPower = 0;
+  }
 
   // Rotate joystick vector to be robot-centric
   float cosA = cos(heading);
