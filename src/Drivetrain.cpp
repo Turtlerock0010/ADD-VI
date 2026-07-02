@@ -21,7 +21,7 @@ void updateDrivetrain(float gamepadX, float gamepadY, float gamepadRotation, flo
   float rotationPower = rotationAxesInversion * movement_speed * gamepadRotation;
 
   // Get robot heading (in radians) from the gyro
-  float heading = NoU3.yaw * ANGULAR_SCALE;
+  float heading = NoU3.roll * ANGULAR_SCALE;
 
 
   if (fabs(rotationPower) > DEADBAND) { // Drift Compensation Script
