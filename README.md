@@ -18,7 +18,7 @@ Welcome to ADD VI code respository, A repository for the programmers of MiniFRC 
 
 
 ### Robot Contributors
-- Owen
+- [@Oakenut](https://github.com/Oakenut) || Owen
 - [@Turtlerock0010](https://github.com/Turtlerock0010) || Daniel
 - [@Ruffle15cute](https://github.com/Ruffle15cute) || Yadhu
 - Oliver
