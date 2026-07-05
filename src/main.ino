@@ -12,6 +12,7 @@ Use: The code that goes into ADD VI
 #include <stdio.h>
 
 // In-File Dependencies
+#include "Constants.h"
 #include "MotorPID.h"
 #include "Drivetrain.h"
 #include "Vision.h"
@@ -72,41 +73,40 @@ void loop() {
     // --- Robot Functions ---
 
     // Spindexer Motor Buttons
-    if (PestoLink.buttonHeld(1)) {
+    if (PestoLink.buttonHeld(CIRCLE_BUTTON)) {
       spindexerMotor.set(1);
     } else {
       spindexerMotor.set(0);
     }
 
     // Shooter Motor Buttons
-    if (PestoLink.buttonHeld(7)) {
+    if (PestoLink.buttonHeld(RIGHT_TRIGGER_BUTTON)) {
       shooterMotor.set(1);
     } else {
       shooterMotor.set(0);
     }
 
     // Intake Motor Buttons
-    if (PestoLink.buttonHeld(6)) {
+    if (PestoLink.buttonHeld(LEFT_TRIGGER_BUTTON)) {
       intakeMotor.set(1);
     } else {
       intakeMotor.set(0);
     }
 
     // Kicker Motor Buttons
-    if (PestoLink.buttonHeld(3)) {
+    if (PestoLink.buttonHeld(TRIANGLE_BUTTON)) {
       kickerMotor.set(1);
-    }
-    else {
+    } else {
       kickerMotor.set(0);
     }
 
     // Turret Rotation Buttons
-    if (PestoLink.buttonHeld(4)) {
+    if (PestoLink.buttonHeld(LEFT_BUMPER_BUTTON)) {
       turret_servo_angle++;
       turretServo.write(turret_servo_angle);
     }
 
-    if (PestoLink.buttonHeld(5)) {
+    if (PestoLink.buttonHeld(RIGHT_BUMPER_BUTTON)) {
       turret_servo_angle--;
       turretServo.write(turret_servo_angle);
     }
