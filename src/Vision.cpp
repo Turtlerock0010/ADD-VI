@@ -5,6 +5,7 @@
 HUSKYLENS huskylens;
 
 // Variables
+int targetIndex = 0;
 int xCenter = 0;
 int yCenter = 0;
 int width = 0;
@@ -45,12 +46,14 @@ void updateVision() {
     // Adjusts the tag data matrix to match sensor readings
     for (int i = 0; i <= 2; i++) {
       HUSKYLENSResult result = huskylens.getBlock(i); // get tag with ID zero
-      availableTags[i][0] = i;
-      availableTags[i][1] = result.xCenter;
-      availableTags[i][2] = result.yCenter;
-      availableTags[i][3] = result.width;
-      availableTags[i][4] = result.height;
-      availableTags[i][5] = ((FOCAL_CONSTANT * FIELD_APRIL_TAG_WIDTH) / result.width);
+      targetIndex = result.ID - 1;
+
+      availableTags[targetIndex][0] = i;
+      availableTags[targetIndex][1] = result.xCenter;
+      availableTags[targetIndex][2] = result.yCenter;
+      availableTags[targetIndex][3] = result.width;
+      availableTags[targetIndex][4] = result.height;
+      availableTags[targetIndex][5] = ((FOCAL_CONSTANT * FIELD_APRIL_TAG_WIDTH) / result.width);
 
       // NOTE: There is an issue with yaw outputting incorrect angles.
       //       The issue is fixable & tolerable but not solvable.
