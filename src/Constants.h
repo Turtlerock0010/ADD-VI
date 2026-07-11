@@ -49,6 +49,7 @@ const int spindexerMotorTerminal = 1;
 
 // --- General Servo Headers ---
 const int turretServoHeader = 1;
+const int hoodServoHeader = 2;
 
 // --- Motor Port Inversions ---
 const bool frontLeftInversion = true;
