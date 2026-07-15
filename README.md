@@ -28,7 +28,8 @@ Welcome to ADD VI code respository, A repository for the programmers of MiniFRC 
 ## Extra Information
 
 ### Layouts
-<img width="1335" height="650" alt="image" src="https://github.com/user-attachments/assets/b6d0803f-0be2-43a0-8093-213dfd67656f" />
+<img width="1294" height="476" alt="ADD_VI_Controller_Scheme_ps" src="https://github.com/user-attachments/assets/7ce54d25-1a90-41e5-8e8c-447f4d5b5a0b" />
+
 
 > [Controller Layout Page](www.padcrafter.com/) if anyone is wondering where I got it from
 
