@@ -66,7 +66,7 @@ float readDistanceCm() {
 }
 
 float hoodDistanceAdjustment(float recordedDistance) {
-  hood_servo_angle = recordedDistance * 2; // Change this based on field data!!!
+  hood_servo_angle = recordedDistance * linearHoodAngleMultiplier; // Change this based on field data!!!
   hood_servo_angle = constrain(hood_servo_angle, 0, 85);
   hoodServo.write(hood_servo_angle);
 }
@@ -272,6 +272,8 @@ void loop() {
         turretServoHandler(turret_servo_angle);
         auto_aim_state = AutoAimState::STANDBY;
 
+        // Adjusts the hood to match the recorded measurements
+        hoodDistanceAdjustment(shortestRecordedDistance);
       break;
 
       case AutoAimState::STANDBY:
@@ -327,7 +329,7 @@ void loop() {
       hoodServo.write(hood_servo_angle);
     }
 
-
+    
 
     updateDrivetrain(PestoLink.getAxis(2), PestoLink.getAxis(1), movementSpeed);
     NoU3.setServiceLight(LIGHT_ENABLED);
