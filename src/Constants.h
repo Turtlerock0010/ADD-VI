@@ -31,6 +31,7 @@ enum class RobotState {
   STANDBY,
   SHOOT,
   INTAKE,
+  OUTTAKE,
   STIR
 };
 
@@ -42,6 +43,8 @@ enum class AutoAimState {
   LOCK
 };
 
+// Turret Backlash Constant
+const int turretBacklashOffset = 45;
 
 // --- Drivetrain Terminals ---
 const int frontLeftTerminal = 4;
