@@ -10,11 +10,11 @@ Use: The code that goes into DeOrbit
 #include <PestoLink-Receive.h>
 #include <Alfredo_NoU3.h>
 #include <stdio.h>
-#include <VL53L0X.h>
 
 // In-File Dependencies
 #include "Constants.h"
 #include "Drivetrain.h"
+#include "Vision.h"
 
 // Motor Functions Init
 NoU_Motor intakeMotor(intakeMotorTerminal);
@@ -52,16 +52,11 @@ bool is_Scanning = false;
 
 AutoAimState auto_aim_state = AutoAimState::STANDBY;
 RobotState robot_state = RobotState::STANDBY;
-VL53L0X distanceSensor;
 
 // Functions
 void turretServoHandler(float turretServoAngle) {
   turretServo.write(turretServoAngle * 210/180 * 1/2); 
   // Weird math, but it sets the range back to 0-360 degrees :)
-}
-
-float readDistanceCm() {
-  return distanceSensor.readRangeContinuousMillimeters() / 10.0;
 }
 
 float hoodDistanceAdjustment(float recordedDistance) {
@@ -328,7 +323,7 @@ void loop() {
       hoodServo.write(hood_servo_angle);
     }
 
-    
+
 
     updateDrivetrain(PestoLink.getAxis(2), PestoLink.getAxis(1), movementSpeed);
     NoU3.setServiceLight(LIGHT_ENABLED);
