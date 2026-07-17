@@ -264,10 +264,8 @@ void loop() {
         // Locks on via custom servo handler and turret servo angle.
         turret_servo_angle = shortestRecordedDistanceAngle - turretBacklashOffset;
         turretServoHandler(turret_servo_angle);
-        auto_aim_state = AutoAimState::STANDBY;
-
-        // Adjusts the hood to match the recorded measurements
         hoodDistanceAdjustment(shortestRecordedDistance);
+        auto_aim_state = AutoAimState::STANDBY;
       break;
 
       case AutoAimState::STANDBY:
