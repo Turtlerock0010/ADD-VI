@@ -38,7 +38,7 @@ float measured_angle = 27.451;
 float angular_scale = (5.0*2.0*PI) / measured_angle;
 float movementSpeed = 1;
 float turret_servo_angle = 0;
-float* hub_tag_data;
+float hood_servo_angle = 0;
 float shortestRecordedDistanceAngle = 0;
 float shortestRecordedDistance = 0;
 unsigned long time_at_flywheel_start = 0;
@@ -65,6 +65,11 @@ float readDistanceCm() {
   return distanceSensor.readRangeContinuousMillimeters() / 10.0;
 }
 
+float hoodDistanceAdjustment(float recordedDistance) {
+  hood_servo_angle = recordedDistance * 2; // Change this based on field data!!!
+  hood_servo_angle = constrain(hood_servo_angle, 0, 85);
+  hoodServo.write(hood_servo_angle);
+}
 
 void setup() {
   PestoLink.begin("DeOrbit");
@@ -230,8 +235,8 @@ void loop() {
           // So that when the button is released, it goes to lock.
           is_Scanning = true;
 
-          // Incriments the angle by 2, but is adjustable.
-          turret_servo_angle += 2;
+          // Incriments the angle by 4, but is adjustable.
+          turret_servo_angle += 4;
           turretServoHandler(turret_servo_angle);
 
           // Checks for most shortest distance
@@ -250,7 +255,7 @@ void loop() {
 
       case AutoAimState::LOCK:
         // Locks on via custom servo handler and turret servo angle.
-        turret_servo_angle = shortestRecordedDistanceAngle;
+        turret_servo_angle = shortestRecordedDistanceAngle - 45;
         turretServoHandler(turret_servo_angle);
         auto_aim_state = AutoAimState::STANDBY;
 
@@ -298,6 +303,22 @@ void loop() {
       turret_servo_angle -= 1;
       turretServoHandler(turret_servo_angle);
     }
+
+
+
+    // Set Zero
+    if (PestoLink.keyHeld(Key::F)) {
+      hood_servo_angle = 0;
+      hoodServo.write(hood_servo_angle);
+    }
+
+    // Turn Clockwise
+    if (PestoLink.keyHeld(Key::G)) {
+      hood_servo_angle = 85;
+      hoodServo.write(hood_servo_angle);
+    }
+
+
 
     updateDrivetrain(PestoLink.getAxis(2), PestoLink.getAxis(1), movementSpeed);
     NoU3.setServiceLight(LIGHT_ENABLED);
