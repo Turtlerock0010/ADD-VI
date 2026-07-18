@@ -25,6 +25,9 @@
 #define CROSS_BUTTON 0
 #define SQUARE_BUTTON 2
 
+// Option Buttons
+#define OPTION_LEFT 8
+#define OPTION_RIGHT 9
 
 // --- State Machine Preprocessor Directives ---
 enum class RobotState {
@@ -32,6 +35,7 @@ enum class RobotState {
   SHOOT,
   INTAKE,
   OUTTAKE,
+  JUGGLE,
   STIR
 };
 
