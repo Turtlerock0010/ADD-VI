@@ -59,7 +59,7 @@ void turretServoHandler(float turretServoAngle) {
   // Weird math, but it sets the range back to 0-360 degrees :)
 }
 
-float hoodDistanceAdjustment(float recordedDistance) {
+void hoodDistanceAdjustment(float recordedDistance) {
   hood_servo_angle = recordedDistance * linearHoodAngleMultiplier; // Change this based on field data!!!
   hood_servo_angle = constrain(hood_servo_angle, 0, 85);
   hoodServo.write(hood_servo_angle);
@@ -123,6 +123,9 @@ void loop() {
     } else if (PestoLink.buttonHeld(LEFT_BUMPER_BUTTON) || PestoLink.keyHeld(Key::I)) {
       // OUTTAKE
       robot_state = RobotState::OUTTAKE;
+    } else if (PestoLink.buttonHeld(RIGHT_BUMPER_BUTTON) || PestoLink.keyHeld(Key::Y)) {
+      // JUGGLE
+      robot_state = RobotState::JUGGLE;
     } else if (PestoLink.buttonHeld(CIRCLE_BUTTON) || PestoLink.keyHeld(Key::R)) {
       // STIR
       robot_state = RobotState::STIR;
@@ -182,10 +185,17 @@ void loop() {
         kickerMotor.set(0);
         intakeMotor.set(-1);
         break;
+      
+      case RobotState::JUGGLE:
+        shooterMotor.set(0);
+        spindexerMotor.set(-1);
+        kickerMotor.set(-1);
+        intakeMotor.set(0);
+        break;
 
       case RobotState::STIR:
         shooterMotor.set(0);
-        spindexerMotor.set(1);
+        spindexerMotor.set(-1);
         kickerMotor.set(0);
         intakeMotor.set(1);
 
@@ -320,6 +330,8 @@ void loop() {
       hood_servo_angle = 85;
       hoodServo.write(hood_servo_angle);
     }
+
+
 
 
 
